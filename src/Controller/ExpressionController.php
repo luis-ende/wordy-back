@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ExpressionController extends AbstractController
 {
-    #[Route('/expression', name: 'expression')]
+    #[Route('/', name: 'homepage')]
     public function index(): Response
     {
         return $this->render('expression/index.html.twig', [

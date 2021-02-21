@@ -57,6 +57,11 @@ class Expression
      */
     private $learningUnit;
 
+    public function __toString(): string
+    {
+        return (string) $this->getTextLanguage1();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
