@@ -40,6 +40,7 @@ class LearningUnit
     /**
      * @ORM\ManyToMany(targetEntity=Expression::class, mappedBy="learningUnits")
      */
+    #[Groups(['learning_unit:list', 'learning_unit:item'])]     
     private $expressions;
 
     public function __construct()

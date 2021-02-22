@@ -2,14 +2,25 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+
 use App\Repository\ExpressionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * @ORM\Entity(repositoryClass=ExpressionRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * 
+ * @ApiResource(
+ *     collectionOperations={"get"={"normalization_context"={"groups"="expression:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="expression:item"}}},
+ *     order={"textLanguage1"="DESC"},
+ *     paginationEnabled=false
+ * ) 
  */
 class Expression
 {
@@ -18,41 +29,49 @@ class Expression
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['expression:list', 'expression:item'])]     
     private $id;
 
     /**
      * @ORM\Column(type="text")
      */
+    #[Groups(['expression:list', 'expression:item'])]     
     private $textLanguage1;
 
     /**
      * @ORM\Column(type="text")
      */
+    #[Groups(['expression:list', 'expression:item'])]     
     private $textLanguage2;
 
     /**
      * @ORM\Column(type="smallint")
      */
+    #[Groups(['expression:list', 'expression:item'])]     
     private $language1;
 
     /**
      * @ORM\Column(type="smallint")
      */
+    #[Groups(['expression:list', 'expression:item'])]     
     private $language2;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
      */
+    #[Groups(['expression:list', 'expression:item'])]     
     private $grammarType;
 
     /**
      * @ORM\Column(type="boolean")
      */
+    #[Groups(['expression:list', 'expression:item'])]     
     private $isLearning;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      */
+    #[Groups(['expression:list', 'expression:item'])]     
     private $learningUpdated;
 
     /**
@@ -61,11 +80,13 @@ class Expression
      * @ORM\ManyToMany(targetEntity=LearningUnit::class, inversedBy="expressions")
      * @ORM\JoinTable(name="expressions_lu")
      */
+    #[Groups(['expression:list', 'expression:item'])]     
     private $learningUnits;
 
     /**
      * @ORM\OneToMany(targetEntity=Example::class, mappedBy="expression", orphanRemoval=true)
      */
+    #[Groups(['expression:list', 'expression:item'])]     
     private $examples;
 
     public function __construct()
