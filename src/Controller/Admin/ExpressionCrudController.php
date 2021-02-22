@@ -28,7 +28,7 @@ class ExpressionCrudController extends AbstractCrudController
     
     public function configureFields(string $pageName): iterable
     {
-        yield AssociationField::new('learningUnit');
+        yield AssociationField::new('learningUnits');
         yield TextAreaField::new('textLanguage1');
         yield TextAreaField::new('textLanguage2');  
         yield ChoiceField::new('language1')

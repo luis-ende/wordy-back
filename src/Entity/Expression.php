@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ExpressionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -54,9 +56,17 @@ class Expression
     private $learningUpdated;
 
     /**
-     * @ORM\ManyToOne(targetEntity=LearningUnit::class, inversedBy="expressions")
+     * Many Expressions have many Learning units
+     * 
+     * @ORM\ManyToMany(targetEntity=LearningUnit::class, inversedBy="expressions")
+     * @ORM\JoinTable(name="expressions_lu")
      */
-    private $learningUnit;
+    private $learningUnits;    
+
+    public function __construct()
+    {
+        $this->learningUnits1 = new ArrayCollection();
+    }    
 
     public function __toString(): string
     {
@@ -178,4 +188,28 @@ class Expression
             $this->isLearning = false;
         }
     }
+
+    /**
+     * @return Collection|LearningUnit[]
+     */
+    public function getLearningUnits(): Collection
+    {
+        return $this->learningUnits;
+    }
+
+    public function addLearningUnits(LearningUnit $learningUnits): self
+    {
+        if (!$this->learningUnits->contains($learningUnits)) {
+            $this->learningUnits1[] = $learningUnits;
+        }
+
+        return $this;
+    }
+
+    public function removeLearningUnits(LearningUnit $learningUnits): self
+    {
+        $this->learningUnits->removeElement($learningUnits);
+
+        return $this;
+    }   
 }

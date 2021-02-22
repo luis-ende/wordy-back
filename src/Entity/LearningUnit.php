@@ -25,13 +25,15 @@ class LearningUnit
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Expression::class, mappedBy="learningUnit")
+     * @ORM\ManyToMany(targetEntity=Expression::class, mappedBy="learningUnits")
      */
     private $expressions;
 
     public function __construct()
     {
         $this->expressions = new ArrayCollection();
+        $this->expressionGroup = new ArrayCollection();
+        $this->expressions1 = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -64,23 +66,20 @@ class LearningUnit
         return $this->expressions;
     }
 
-    public function addExpression(Expression $expression): self
+    public function addExpressions(Expression $expressions): self
     {
-        if (!$this->expressions->contains($expression)) {
-            $this->expressions[] = $expression;
-            $expression->setLearningUnit($this);
+        if (!$this->expressions->contains($expressions)) {
+            $this->expressions[] = $expressions;
+            $expressions->addLearningUnits($this);
         }
 
         return $this;
     }
 
-    public function removeExpression(Expression $expression): self
+    public function removeExpressions(Expression $expressions): self
     {
-        if ($this->expressions->removeElement($expression)) {
-            // set the owning side to null (unless already changed)
-            if ($expression->getLearningUnit() === $this) {
-                $expression->setLearningUnit(null);
-            }
+        if ($this->expressions->removeElement($expressions)) {
+            $expressions->removeLearningUnits($this);
         }
 
         return $this;
