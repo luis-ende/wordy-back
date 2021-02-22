@@ -70,7 +70,7 @@ class Expression
 
     public function __construct()
     {
-        $this->learningUnits1 = new ArrayCollection();
+        $this->learningUnits = new ArrayCollection();
         $this->examples = new ArrayCollection();
     }    
 
