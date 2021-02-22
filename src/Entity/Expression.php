@@ -61,11 +61,17 @@ class Expression
      * @ORM\ManyToMany(targetEntity=LearningUnit::class, inversedBy="expressions")
      * @ORM\JoinTable(name="expressions_lu")
      */
-    private $learningUnits;    
+    private $learningUnits;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Example::class, mappedBy="expression", orphanRemoval=true)
+     */
+    private $examples;
 
     public function __construct()
     {
         $this->learningUnits1 = new ArrayCollection();
+        $this->examples = new ArrayCollection();
     }    
 
     public function __toString(): string
@@ -211,5 +217,35 @@ class Expression
         $this->learningUnits->removeElement($learningUnits);
 
         return $this;
-    }   
+    }
+
+    /**
+     * @return Collection|Example[]
+     */
+    public function getExamples(): Collection
+    {
+        return $this->examples;
+    }
+
+    public function addExample(Example $example): self
+    {
+        if (!$this->examples->contains($example)) {
+            $this->examples[] = $example;
+            $example->setExpression($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExample(Example $example): self
+    {
+        if ($this->examples->removeElement($example)) {
+            // set the owning side to null (unless already changed)
+            if ($example->getExpression() === $this) {
+                $example->setExpression(null);
+            }
+        }
+
+        return $this;
+    }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Expression;
 use App\Entity\LearningUnit;
+use App\Entity\Expression;
+use App\Entity\Example;
 
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -36,5 +37,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToRoute('Back to the website', 'fas fa-home', 'homepage');
         yield MenuItem::linkToCrud('Learning Units', 'fas fa-list-alt', LearningUnit::class);
         yield MenuItem::linkToCrud('Expressions', 'fas fa-language', Expression::class);
+        yield MenuItem::linkToCrud('Examples', 'fas fa-chalkboard', Example::class);
     }
 }
