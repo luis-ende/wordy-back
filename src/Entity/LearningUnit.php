@@ -2,13 +2,24 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+
 use App\Repository\LearningUnitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * @ORM\Entity(repositoryClass=LearningUnitRepository::class)
+ * 
+ * @ApiResource(
+ *     collectionOperations={"get"={"normalization_context"={"groups"="learning_unit:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="learning_unit:item"}}},
+ *     order={"name"="DESC"},
+ *     paginationEnabled=false
+ * ) 
  */
 class LearningUnit
 {
@@ -17,11 +28,13 @@ class LearningUnit
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['learning_unit:list', 'learning_unit:item'])]     
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['learning_unit:list', 'learning_unit:item'])]     
     private $name;
 
     /**
