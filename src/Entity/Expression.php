@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ExpressionRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Expression
 {
@@ -161,5 +162,20 @@ class Expression
         $this->learningUnit = $learningUnit;
 
         return $this;
+    }    
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setDefaultValues() {        
+        if (!isset($this->language1)) {
+            $this->language1 = 1;
+        }
+        if (!isset($this->language2)) {
+            $this->language1 = 2;
+        }        
+        if (!isset($this->isLearning)) {
+            $this->isLearning = false;
+        }
     }
 }

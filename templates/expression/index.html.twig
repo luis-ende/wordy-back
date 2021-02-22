@@ -1,20 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ExpressionController!{% endblock %}
+{% block title %}Welcome to the Wordy App{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
+    <h2>Registered expressions</h2>
     <ul>
-        <li>Your controller at <code><a href="{{ '/home/jls/php_projects/wordyapp/src/Controller/ExpressionController.php'|file_link(0) }}">src/Controller/ExpressionController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/jls/php_projects/wordyapp/templates/expression/index.html.twig'|file_link(0) }}">templates/expression/index.html.twig</a></code></li>
+    {% for expression in expressions %}
+        <li>{{ expression }}</li>
+    {% endfor %}
     </ul>
-</div>
 {% endblock %}
+
