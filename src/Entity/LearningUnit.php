@@ -16,8 +16,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=LearningUnitRepository::class)
  * 
  * @ApiResource(
- *     collectionOperations={"get"={"normalization_context"={"groups"="learning_unit:list"}}},
- *     itemOperations={"get"={"normalization_context"={"groups"="learning_unit:item"}}},
+ *     collectionOperations={"get"={"normalization_context"={"groups"="learning-unit:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="learning-unit:item"}}},
  *     order={"name"="DESC"},
  *     paginationEnabled=false
  * ) 
@@ -29,13 +29,13 @@ class LearningUnit
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['learning_unit:list', 'learning_unit:item'])]     
+    #[Groups(['learning-unit:list', 'learning-unit:item'])]     
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['learning_unit:list', 'learning_unit:item'])]     
+    #[Groups(['learning-unit:list', 'learning-unit:item'])]     
     private $name;
 
     /**

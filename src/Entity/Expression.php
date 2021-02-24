@@ -19,8 +19,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\HasLifecycleCallbacks()
  * 
  * @ApiResource(
- *     collectionOperations={"get"={"normalization_context"={"groups"="expression:list"}}},
- *     itemOperations={"get"={"normalization_context"={"groups"="expression:item"}}},
+ *     collectionOperations={"get","post"={"normalization_context"={"groups"="expression:list"}}},
+ *     itemOperations={"get","patch","delete"={"normalization_context"={"groups"="expression:item"}}},
  *     order={"textLanguage1"="DESC"},
  *     paginationEnabled=false
  * ) 
@@ -34,49 +34,49 @@ class Expression
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['expression:list', 'expression:item'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
     private $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    #[Groups(['expression:list', 'expression:item'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
     private $textLanguage1;
 
     /**
      * @ORM\Column(type="text")
      */
-    #[Groups(['expression:list', 'expression:item'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
     private $textLanguage2;
 
     /**
      * @ORM\Column(type="smallint")
      */
-    #[Groups(['expression:list', 'expression:item'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
     private $language1;
 
     /**
      * @ORM\Column(type="smallint")
      */
-    #[Groups(['expression:list', 'expression:item'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
     private $language2;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
      */
-    #[Groups(['expression:list', 'expression:item'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
     private $grammarType;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    #[Groups(['expression:list', 'expression:item'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
     private $isLearning;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      */
-    #[Groups(['expression:list', 'expression:item'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
     private $learningUpdated;
 
     /**
@@ -192,12 +192,7 @@ class Expression
 
         return $this;
     }
-
-    public function getLearningUnit(): ?LearningUnit
-    {
-        return $this->learningUnit;
-    }
-
+    
     public function setLearningUnit(?LearningUnit $learningUnit): self
     {
         $this->learningUnit = $learningUnit;
@@ -272,5 +267,5 @@ class Expression
         }
 
         return $this;
-    }
+    }    
 }
