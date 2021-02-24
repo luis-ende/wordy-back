@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 
 use App\Repository\LearningUnitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,9 +40,8 @@ class LearningUnit
 
     /**
      * @ORM\ManyToMany(targetEntity=Expression::class, mappedBy="learningUnits")
-     */
-    #[Groups(['learning_unit:list', 'learning_unit:item'])]     
-    private $expressions;
+     */              
+     private $expressions;
 
     public function __construct()
     {

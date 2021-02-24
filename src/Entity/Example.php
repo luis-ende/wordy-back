@@ -2,13 +2,24 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+
 use App\Repository\ExampleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * @ORM\Entity(repositoryClass=ExampleRepository::class)
+ * 
+ * @ApiResource(
+ *     collectionOperations={"get"={"normalization_context"={"groups"="example:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="example:item"}}},
+ *     order={"phrase"="DESC"},
+ *     paginationEnabled=false
+ * ) 
  */
 class Example
 {
@@ -17,11 +28,13 @@ class Example
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['example:list', 'example:item'])]     
     private $id;
 
     /**
      * @ORM\Column(type="text")
      */
+    #[Groups(['example:list', 'example:item'])]     
     private $phrase;
 
     /**

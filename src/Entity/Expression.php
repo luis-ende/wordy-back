@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 use App\Repository\ExpressionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,6 +24,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     order={"textLanguage1"="DESC"},
  *     paginationEnabled=false
  * ) 
+ * 
+ * @ApiFilter(SearchFilter::class, properties={"learningUnits.id": "exact"})  
  */
 class Expression
 {
@@ -79,14 +84,13 @@ class Expression
      * 
      * @ORM\ManyToMany(targetEntity=LearningUnit::class, inversedBy="expressions")
      * @ORM\JoinTable(name="expressions_lu")
-     */
-    #[Groups(['expression:list', 'expression:item'])]     
+     */    
     private $learningUnits;
 
     /**
      * @ORM\OneToMany(targetEntity=Example::class, mappedBy="expression", orphanRemoval=true)
-     */
-    #[Groups(['expression:list', 'expression:item'])]     
+     */    
+    #[ApiSubresource]    
     private $examples;
 
     public function __construct()
