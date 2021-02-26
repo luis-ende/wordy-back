@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     collectionOperations={"get","post"={"normalization_context"={"groups"="expression:list"}}},
  *     itemOperations={"get","patch","delete"={"normalization_context"={"groups"="expression:item"}}},
- *     order={"textLanguage1"="DESC"},
+ *     order={"createdAt"="ASC"},
  *     paginationEnabled=false
  * ) 
  * 
@@ -92,6 +92,11 @@ class Expression
      */    
     #[ApiSubresource]    
     private $examples;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
     public function __construct()
     {
@@ -267,5 +272,26 @@ class Expression
         }
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
     }    
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }
+    
 }

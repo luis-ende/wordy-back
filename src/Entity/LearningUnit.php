@@ -14,11 +14,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=LearningUnitRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  * 
  * @ApiResource(
  *     collectionOperations={"get"={"normalization_context"={"groups"="learning-unit:list"}}},
  *     itemOperations={"get"={"normalization_context"={"groups"="learning-unit:item"}}},
- *     order={"name"="DESC"},
+ *     order={"name"="ASC"},
  *     paginationEnabled=false
  * ) 
  */
@@ -42,6 +43,11 @@ class LearningUnit
      * @ORM\ManyToMany(targetEntity=Expression::class, mappedBy="learningUnits")
      */              
      private $expressions;
+
+     /**
+      * @ORM\Column(type="datetime")
+      */
+     private $createdAt;
 
     public function __construct()
     {
@@ -97,5 +103,25 @@ class LearningUnit
         }
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
     }
 }

@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ExampleRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  * 
  * @ApiResource(
  *     collectionOperations={"get"={"normalization_context"={"groups"="example:list"}}},
@@ -42,6 +43,11 @@ class Example
      * @ORM\JoinColumn(nullable=false)
      */
     private $expression;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
     public function __construct()
     {
@@ -75,5 +81,25 @@ class Example
         $this->expression = $expression;
 
         return $this;
-    }        
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }       
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }    
 }
