@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     collectionOperations={"get","post"={"normalization_context"={"groups"="expression:list"}}},
  *     itemOperations={"get","patch","delete"={"normalization_context"={"groups"="expression:item"}}},
- *     order={"createdAt"="ASC"},
+ *     order={"createdAt"="DESC"},
  *     paginationEnabled=false
  * ) 
  * 
