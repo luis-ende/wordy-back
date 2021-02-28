@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Expression;
 use App\Repository\ExpressionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,5 +16,5 @@ class ExpressionController extends AbstractController
         return new Response($twig->render('expression/index.html.twig', [
             'expressions' => $expressionRepository->findAll(),
         ]));
-    }
+    }    
 }

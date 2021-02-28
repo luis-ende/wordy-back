@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\HasLifecycleCallbacks()
  * 
  * @ApiResource(
- *     collectionOperations={"get"={"normalization_context"={"groups"="learning-unit:list"}}},
+ *     collectionOperations={"get","post"={"normalization_context"={"groups"="learning-unit:list"}}},
  *     itemOperations={"get"={"normalization_context"={"groups"="learning-unit:item"}}},
  *     order={"name"="ASC"},
  *     paginationEnabled=false
@@ -41,7 +41,10 @@ class LearningUnit
 
     /**
      * @ORM\ManyToMany(targetEntity=Expression::class, mappedBy="learningUnits")
-     */              
+     */      
+     #[ApiSubresource(
+        maxDepth: 1,
+     )]         
      private $expressions;
 
      /**

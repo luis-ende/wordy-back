@@ -25,7 +25,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     paginationEnabled=false
  * ) 
  * 
- * @ApiFilter(SearchFilter::class, properties={"learningUnits.id": "exact"})  
  */
 class Expression
 {
@@ -85,7 +84,10 @@ class Expression
      * @ORM\ManyToMany(targetEntity=LearningUnit::class, inversedBy="expressions")
      * @ORM\JoinTable(name="expressions_lu")
      */    
-    private $learningUnits;
+    #[ApiSubresource(
+        maxDepth: 1,
+     )]         
+     private $learningUnits;
 
     /**
      * @ORM\OneToMany(targetEntity=Example::class, mappedBy="expression", orphanRemoval=true)
@@ -216,7 +218,7 @@ class Expression
             $this->language1 = 2;
         }        
         if (!isset($this->isLearning)) {
-            $this->isLearning = false;
+            $this->isLearning = true;
         }
     }
 

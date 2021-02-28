@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\HasLifecycleCallbacks()
  * 
  * @ApiResource(
- *     collectionOperations={"get"={"normalization_context"={"groups"="example:list"}}},
+ *     collectionOperations={"get","post"={"normalization_context"={"groups"="example:list"}}},
  *     itemOperations={"get"={"normalization_context"={"groups"="example:item"}}},
  *     order={"phrase"="DESC"},
  *     paginationEnabled=false
