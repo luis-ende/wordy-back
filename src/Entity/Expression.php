@@ -81,7 +81,7 @@ class Expression
     /**
      * Many Expressions have many Learning units
      * 
-     * @ORM\ManyToMany(targetEntity=LearningUnit::class, inversedBy="expressions")
+     * @ORM\ManyToMany(targetEntity=LearningUnit::class, inversedBy="expressions", cascade={"all"})
      * @ORM\JoinTable(name="expressions_lu")
      */    
     #[ApiSubresource(
@@ -198,13 +198,6 @@ class Expression
         $this->learningUpdated = $learningUpdated;
 
         return $this;
-    }
-    
-    public function setLearningUnit(?LearningUnit $learningUnit): self
-    {
-        $this->learningUnit = $learningUnit;
-
-        return $this;
     }    
 
     /**
@@ -233,7 +226,7 @@ class Expression
     public function addLearningUnits(LearningUnit $learningUnits): self
     {
         if (!$this->learningUnits->contains($learningUnits)) {
-            $this->learningUnits1[] = $learningUnits;
+            $this->learningUnits[] = $learningUnits;
         }
 
         return $this;

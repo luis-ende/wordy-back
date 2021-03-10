@@ -40,7 +40,7 @@ class LearningUnit
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Expression::class, mappedBy="learningUnits")
+     * @ORM\ManyToMany(targetEntity=Expression::class, mappedBy="learningUnits", cascade={"all"})
      */      
      #[ApiSubresource(
         maxDepth: 1,
@@ -54,9 +54,7 @@ class LearningUnit
 
     public function __construct()
     {
-        $this->expressions = new ArrayCollection();
-        $this->expressionGroup = new ArrayCollection();
-        $this->expressions1 = new ArrayCollection();
+        $this->expressions = new ArrayCollection();                
     }
 
     public function __toString(): string
