@@ -14,13 +14,16 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Serializer\Annotation\Groups;
 
+use App\Controller\PatchExpressionUnits;
+
 /**
  * @ORM\Entity(repositoryClass=ExpressionRepository::class)
  * @ORM\HasLifecycleCallbacks()
  * 
  * @ApiResource(
  *     collectionOperations={"get","post"={"normalization_context"={"groups"="expression:list"}}},
- *     itemOperations={"get","patch","delete"={"normalization_context"={"groups"="expression:item"}}},
+ *     itemOperations={"get","patch","delete","put"={"normalization_context"={"groups"="expression:item"}}, 
+ *                     "add_unit"={"method"="PATCH", "path"="/expressions/{id}/units.{_format}", "controller"=PatchExpressionUnits::class, "defaults"={"format"="jsonld","_api_receive"=false}}},
  *     order={"createdAt"="DESC"},
  *     paginationEnabled=false
  * ) 
@@ -83,10 +86,12 @@ class Expression
      * 
      * @ORM\ManyToMany(targetEntity=LearningUnit::class, inversedBy="expressions", cascade={"all"})
      * @ORM\JoinTable(name="expressions_lu")
+     *
      */    
     #[ApiSubresource(
         maxDepth: 1,
      )]         
+     #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
      private $learningUnits;
 
     /**
