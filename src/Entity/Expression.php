@@ -28,7 +28,6 @@ use App\Controller\PatchExpressionUnits;
  *     paginationEnabled=false
  * ) 
  * 
- * @ApiFilter(SearchFilter::class, properties={"learningUnits.id": "exact"})  
  */
 class Expression
 {
