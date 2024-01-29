@@ -1,0 +1,32 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: wordy-box
+hostname: homestead
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+  - ~/.ssh/id_rsa
+
+folders:
+  - map: ~/Projects/wordy
+    to: /var/www/wordy
+
+sites:
+  - map: wordy.test
+    to: /var/www/wordy/public
+    php: "8.1"
+    type: "symfony7"
+
+databases:
+  - wordy
+
+features:
+  - mysql: true
+  - mariadb: false
+  - postgresql: false
+  - ohmyzsh: false
+  - webdriver: false

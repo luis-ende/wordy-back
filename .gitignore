@@ -17,3 +17,6 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+Homestead/Homestead.yaml
+Homestead/vendor
+Homestead/.vagrant
