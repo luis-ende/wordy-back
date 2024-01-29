@@ -23,7 +23,7 @@
 #sudo apt-get install -y nodejs
 
 
-php80
+php81
 
 # Remove Node.js v12.x:va
 sudo apt-get -y purge nodejs
@@ -45,7 +45,7 @@ sudo systemctl restart postgresql
 psql -d wordy -h homestead -U homestead -e -c "CREATE USER wordy_dbuser WITH PASSWORD 'wordytest';"
 psql -d wordy -h homestead -U homestead -e -c "GRANT ALL PRIVILEGES ON DATABASE wordy to wordy_dbuser;"
 
-sudo service php8.0-fpm restart
+sudo service php8.1-fpm start
 sudo systemctl restart nginx
 
 cd /
