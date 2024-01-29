@@ -2,16 +2,38 @@
 
 namespace App\DataFixtures;
 
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Entity\Admin;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 use App\Entity\Expression;
 use App\Entity\LearningUnit;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AppFixtures extends Fixture
 {
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->passwordEncoder = $encoder;
+    }
+
+
     public function load(ObjectManager $manager)
     {   
+        $testPass = 'test';
+        
+
+        $testUser = new Admin();
+        $testUser->setUsername('test');
+        $testUser->setRoles(array('ROLE_ADMIN'));
+        $password = $this->passwordEncoder->encodePassword($testUser, $testPass);
+        $testUser->setPassword($password);
+        $manager->persist($testUser);        
+        
+
         $learning_unit = new LearningUnit();
         $learning_unit->setName('Essen und Trinken');                 
         
