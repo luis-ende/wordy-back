@@ -15,6 +15,8 @@ class ExpressionController extends AbstractController
     public function index(Environment $twig, ExpressionRepository $expressionRepository): Response    {
         return new Response($twig->render('expression/index.html.twig', [
             'expressions' => $expressionRepository->findAll(),
+            'prop1' => 'Hola',
+            'prop2' => 'Mundo',
         ]));
     }    
 }
