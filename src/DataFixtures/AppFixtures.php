@@ -13,11 +13,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AppFixtures extends Fixture
 {
-    private $passwordEncoder;
-
-    public function __construct(UserPasswordHasherInterface $encoder)
+    public function __construct(
+        private UserPasswordHasherInterface $passwordEncoder
+    )
     {
-        $this->passwordEncoder = $encoder;
     }
 
 
@@ -29,7 +28,7 @@ class AppFixtures extends Fixture
         $testUser = new Admin();
         $testUser->setUsername('test');
         $testUser->setRoles(array('ROLE_ADMIN'));
-        $password = $this->passwordEncoder->encodePassword($testUser, $testPass);
+        $password = $this->passwordEncoder->hashPassword($testUser, $testPass);
         $testUser->setPassword($password);
         $manager->persist($testUser);        
         
