@@ -20,3 +20,7 @@ yarn-error.log
 Homestead/Homestead.yaml
 Homestead/vendor
 Homestead/.vagrant
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
