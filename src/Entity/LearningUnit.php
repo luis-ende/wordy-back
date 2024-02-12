@@ -13,43 +13,35 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=LearningUnitRepository::class)
- * @ORM\HasLifecycleCallbacks()
- * 
+ *
  * @ApiResource(
  *     collectionOperations={"get","post"={"normalization_context"={"groups"="learning-unit:list"}}},
  *     itemOperations={"get"={"normalization_context"={"groups"="learning-unit:item"}}},
  *     order={"name"="ASC"},
  *     paginationEnabled=false
- * ) 
+ * )
  */
+#[ORM\Entity(repositoryClass: LearningUnitRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class LearningUnit
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    #[Groups(['learning-unit:list', 'learning-unit:item'])]     
+    #[Groups(['learning-unit:list', 'learning-unit:item'])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]     
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    #[Groups(['learning-unit:list', 'learning-unit:item'])]     
+    #[Groups(['learning-unit:list', 'learning-unit:item'])]
+    #[ORM\Column(type: 'string', length: 255)]     
     private $name;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Expression::class, mappedBy="learningUnits", cascade={"all"})
-     */      
-     #[ApiSubresource(
+    #[ApiSubresource(
         maxDepth: 1,
-     )]         
+     )]
+     #[ORM\ManyToMany(targetEntity: Expression::class, mappedBy: 'learningUnits', cascade: ['all'])]         
      private $expressions;
 
-     /**
-      * @ORM\Column(type="datetime")
-      */
+     #[ORM\Column(type: 'datetime')]
      private $createdAt;
 
     public function __construct()
@@ -118,10 +110,8 @@ class LearningUnit
         return $this;
     }
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function setCreatedAtValue()
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
     {
         $this->createdAt = new \DateTime();
     }

@@ -17,92 +17,71 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use App\Controller\PatchExpressionUnits;
 
 /**
- * @ORM\Entity(repositoryClass=ExpressionRepository::class)
- * @ORM\HasLifecycleCallbacks()
- * 
  * @ApiResource(
  *     collectionOperations={"get","post"={"normalization_context"={"groups"="expression:list"}}},
- *     itemOperations={"get","patch","delete","put"={"normalization_context"={"groups"="expression:item"}}, 
+ *     itemOperations={"get","patch","delete","put"={"normalization_context"={"groups"="expression:item"}},
  *                     "add_unit"={"method"="PATCH", "path"="/expressions/{id}/units.{_format}", "controller"=PatchExpressionUnits::class, "defaults"={"format"="jsonld","_api_receive"=false}}},
  *     order={"createdAt"="DESC"},
  *     paginationEnabled=false
- * ) 
- * 
+ * )
+ *
  */
+#[ORM\Entity(repositoryClass: ExpressionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Expression
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]     
     private $id;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]
+    #[ORM\Column(type: 'text')]     
     private $textLanguage1;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]
+    #[ORM\Column(type: 'text')]     
     private $textLanguage2;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]
+    #[ORM\Column(type: 'smallint')]     
     private $language1;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]
+    #[ORM\Column(type: 'smallint')]     
     private $language2;
 
-    /**
-     * @ORM\Column(type="smallint", nullable=true)
-     */
-    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]
+    #[ORM\Column(type: 'smallint', nullable: true)]     
     private $grammarType;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]
+    #[ORM\Column(type: 'boolean')]     
     private $isLearning;
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
+    #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]
+    #[ORM\Column(type: 'date', nullable: true)]     
     private $learningUpdated;
 
     /**
      * Many Expressions have many Learning units
-     * 
-     * @ORM\ManyToMany(targetEntity=LearningUnit::class, inversedBy="expressions", cascade={"all"})
-     * @ORM\JoinTable(name="expressions_lu")
      *
-     */    
+     *
+     */
     #[ApiSubresource(
         maxDepth: 1,
      )]         
-     #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]     
+     #[Groups(['expression:list', 'expression:item', 'expression-new:list'])]
+     #[ORM\JoinTable(name: 'expressions_lu')]
+     #[ORM\ManyToMany(targetEntity: LearningUnit::class, inversedBy: 'expressions', cascade: ['all'])]     
      private $learningUnits;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Example::class, mappedBy="expression", orphanRemoval=true)
-     */    
-    #[ApiSubresource]    
+    #[ApiSubresource]
+    #[ORM\OneToMany(targetEntity: Example::class, mappedBy: 'expression', orphanRemoval: true)]    
     private $examples;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
     public function __construct()
@@ -205,10 +184,8 @@ class Expression
         return $this;
     }    
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function setDefaultValues() {        
+    #[ORM\PrePersist]
+    public function setDefaultValues(): void {        
         if (!isset($this->language1)) {
             $this->language1 = 1;
         }
@@ -286,10 +263,8 @@ class Expression
         return $this;
     }    
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function setCreatedAtValue()
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
     {
         $this->createdAt = new \DateTime();
     }

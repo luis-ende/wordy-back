@@ -12,41 +12,33 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=ExampleRepository::class)
- * @ORM\HasLifecycleCallbacks()
- * 
+ *
  * @ApiResource(
  *     collectionOperations={"get","post"={"normalization_context"={"groups"="example:list"}}},
  *     itemOperations={"get"={"normalization_context"={"groups"="example:item"}}},
  *     order={"phrase"="DESC"},
  *     paginationEnabled=false
- * ) 
+ * )
  */
+#[ORM\Entity(repositoryClass: ExampleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Example
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    #[Groups(['example:list', 'example:item'])]     
+    #[Groups(['example:list', 'example:item'])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]     
     private $id;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    #[Groups(['example:list', 'example:item'])]     
+    #[Groups(['example:list', 'example:item'])]
+    #[ORM\Column(type: 'text')]     
     private $phrase;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Expression::class, inversedBy="examples")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Expression::class, inversedBy: 'examples')]
+    #[ORM\JoinColumn(nullable: false)]
     private $expression;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
     public function __construct()
@@ -95,10 +87,8 @@ class Example
         return $this;
     }       
     
-    /**
-     * @ORM\PrePersist
-     */
-    public function setCreatedAtValue()
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
     {
         $this->createdAt = new \DateTime();
     }    
