@@ -1,9 +1,9 @@
 # wordy-back
-Back-End for the Wordy App for learning vocabulary. API built with Symfony 5 and API Platform...
+Back-End for the Wordy App for learning vocabulary. API built with Symfony and API Platform...
 
 ## Requirements
 
-- Symfony 5
+- Symfony 6
 - Node 12
 - Laravel Homestead (for development environment)
 
