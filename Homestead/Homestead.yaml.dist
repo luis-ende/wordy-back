@@ -1,5 +1,5 @@
 ---
-ip: "192.168.10.10"
+ip: 192.168.56.56
 memory: 2048
 cpus: 2
 provider: virtualbox
@@ -12,7 +12,7 @@ keys:
   - ~/.ssh/id_rsa
 
 folders:
-  - map: ~/Projects/wordy
+  - map: ~/Projects/wordy-back
     to: /var/www/wordy
 
 sites:
@@ -25,8 +25,4 @@ databases:
   - wordy
 
 features:
-  - mysql: true
-  - mariadb: false
-  - postgresql: false
-  - ohmyzsh: false
-  - webdriver: false
+  - postgresql: true

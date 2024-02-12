@@ -42,8 +42,9 @@ sudo cp /var/www/wordy/Homestead/nginx/wordy.test /etc/nginx/sites-available/wor
 
 sudo systemctl restart postgresql
 
-psql -d wordy -h homestead -U homestead -e -c "CREATE USER wordy_dbuser WITH PASSWORD 'wordytest';"
-psql -d wordy -h homestead -U homestead -e -c "GRANT ALL PRIVILEGES ON DATABASE wordy to wordy_dbuser;"
+export PGPASSWORD=wordytest #dev environment password
+psql -h homestead -U homestead -e -c "CREATE USER wordy_dbuser WITH PASSWORD 'wordytest';"
+psql -h homestead -U homestead -e -c "GRANT ALL PRIVILEGES ON DATABASE wordy to wordy_dbuser;"
 
 sudo service php8.1-fpm start
 sudo systemctl restart nginx
@@ -56,9 +57,10 @@ cd /var/www/wordy/
 composer install
 
 symfony console doctrine:migrations:migrate
+php bin/console doctrine:fixtures:load
 
 yarn install
-npm run dev
+yarn build
 
 php bin/console assets:install
 
